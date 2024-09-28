@@ -1,9 +1,8 @@
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class TestTest {
 
-    // Create an instance of the Test class
     Calculator testInstance = new Calculator();
 
     @Test
@@ -13,8 +12,7 @@ public class TestTest {
         int num2 = 10;
         int expectedSum = 15;
 
-        // Call the addNumbers method using the instance
-        int actualSum = testInstance.addNumbers(num1, num2);  // Changed to use instance
+        int actualSum = testInstance.addNumbers(num1, num2);
         assertEquals(expectedSum, actualSum);
 
         // Test case 2: Negative numbers
@@ -22,7 +20,7 @@ public class TestTest {
         num2 = -10;
         expectedSum = -15;
 
-        actualSum = testInstance.addNumbers(num1, num2);  // Changed to use instance
+        actualSum = testInstance.addNumbers(num1, num2);
         assertEquals(expectedSum, actualSum);
 
         // Test case 3: Mixed numbers
@@ -30,7 +28,19 @@ public class TestTest {
         num2 = 10;
         expectedSum = 5;
 
-        actualSum = testInstance.addNumbers(num1, num2);  // Changed to use instance
+        actualSum = testInstance.addNumbers(num1, num2);
         assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    public void testEdgeCases() {
+        // Test zero case
+        assertEquals(0, testInstance.addNumbers(0, 0));
+
+        // Test large numbers
+        assertEquals(Integer.MAX_VALUE, testInstance.addNumbers(Integer.MAX_VALUE, 0));
+
+        // Test minimum integer
+        assertEquals(Integer.MIN_VALUE, testInstance.addNumbers(Integer.MIN_VALUE, 0));
     }
 }
