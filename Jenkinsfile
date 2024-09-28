@@ -15,21 +15,40 @@ pipeline {
                 // Checkout code from Git repository
                 git 'https://github.com/ADirin/devopschain_f2024.git'
             }
-        }  
+        }
+        stage('Code Coverage') {
+            steps {
+                // Run Maven to generate JaCoCo code coverage report (Windows bat or Linux sh)
+                bat 'mvn jacoco:report' // For Windows
+                // sh 'mvn jacoco:report' // Uncomment if you're running on Linux
+            }
+        }
+        stage('Publish Test Results') {
+            steps {
+                // Publish the JUnit test results
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+        stage('Publish Coverage Report') {
+            steps {
+                // Publish the Jacoco coverage report
+                jacoco()
+            }
+        }
         stage('Build Docker Image') {
             steps {
-                // Build Docker image
                 script {
-                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
+                    // Build Docker image with the tag from the Dockerfile in the current directory
+                    docker.build("${env.DOCKERHUB_REPO}:${env.DOCKER_IMAGE_TAG}")
                 }
             }
         }
         stage('Push Docker Image to Docker Hub') {
             steps {
-                // Push Docker image to Docker Hub
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
+                    // Push the built Docker image to Docker Hub
+                    docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS_ID) {
+                        docker.image("${env.DOCKERHUB_REPO}:${env.DOCKER_IMAGE_TAG}").push()
                     }
                 }
             }
