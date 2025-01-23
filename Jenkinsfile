@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'dockerhub-credentials'
-        DOCKERHUB_REPO = 'amirdi/devopschain'
-        DOCKER_IMAGE_TAG = 'ver2'
+        DOCKERHUB_REPO = 'amirdirin/devopschain'
+        DOCKER_IMAGE_TAG = 'ver3'
     }
 
     stages {
